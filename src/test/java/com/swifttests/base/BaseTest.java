@@ -32,23 +32,20 @@ public class BaseTest {
 
 
     @BeforeMethod
-        public void setUp() {
-            ChromeOptions options = new ChromeOptions();
+    public void setUp() {
+        ChromeOptions options = new ChromeOptions();
 
-            // Headless in CI, headed locally
-            // Set CI=true in GitHub Actions env (already in the YAML)
-            if ("true".equals(System.getenv("CI"))) {
-                options.addArguments(
-                        "--headless=new",
-                        "--no-sandbox",
-                        "--disable-dev-shm-usage",
-                        "--window-size=1920,1080"
-                );
-            }
+        // Always run headless on Linux CI — Chrome cannot open a display on Ubuntu runners
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*");
 
-            driver = new ChromeDriver(options);
-            driver.manage().window().maximize();
-        }
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+    }
 
     @AfterMethod
     public void tearDown() {
