@@ -25,6 +25,12 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Install Google Chrome   
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Verify Chrome
+        run: google-chrome --version
+        
       - name: Cache Maven
         uses: actions/cache@v4
         with:
