@@ -25,17 +25,30 @@ public class BaseTest {
     protected WebDriver driver;
 
     // Update this path to wherever you saved swift-form.html
-    protected static final String FORM_URL = "file:///C:/testforms/swift-form1.html";
+    protected static final String FORM_URL =
+            "file:///" + System.getProperty("user.dir")
+                    .replace("\\", "/")
+                    + "/src/test/resources/swift-form1.html";
+
 
     @BeforeMethod
-    public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        // Uncomment the line below when running in CI / GitHub Actions:
-        // options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage");
+        public void setUp() {
+            ChromeOptions options = new ChromeOptions();
 
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-    }
+            // Headless in CI, headed locally
+            // Set CI=true in GitHub Actions env (already in the YAML)
+            if ("true".equals(System.getenv("CI"))) {
+                options.addArguments(
+                        "--headless=new",
+                        "--no-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--window-size=1920,1080"
+                );
+            }
+
+            driver = new ChromeDriver(options);
+            driver.manage().window().maximize();
+        }
 
     @AfterMethod
     public void tearDown() {
