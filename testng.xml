@@ -6,4 +6,11 @@
             <class name="com.swifttests.SwiftPaymentTest"/>
         </classes>
     </test>
-</suite>gitgñ
+    <test name="Regression">
+        <classes>
+            <class name="com.swifttests.tests.BicValidationTest"/>
+            <class name="com.swifttests.tests.HappyPathTest"/>
+            <class name="com.swifttests.tests.IbanValidationTest"/>
+        </classes>
+    </test>
+</suite>
