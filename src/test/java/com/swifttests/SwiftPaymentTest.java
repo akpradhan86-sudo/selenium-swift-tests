@@ -15,15 +15,22 @@ public class SwiftPaymentTest {
     WebDriver driver;
 
     // TODO: update this path to where you saved swift-form.html
-    String formUrl = "file:///C:/testforms/swift-form1.html";
+    String formUrl = "file:///" + System.getProperty("user.dir")
+            .replace("\\", "/")
+            + "/src/test/resources/swift-form1.html";
 
     @BeforeMethod
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        // options.addArguments("--headless=new"); // uncomment for CI
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.get("file:///C:/testforms/swift-form1.html");
+        driver.get(formUrl);
     }
 
     @Test(description = "TC-001: BIC field should be visible and editable")
